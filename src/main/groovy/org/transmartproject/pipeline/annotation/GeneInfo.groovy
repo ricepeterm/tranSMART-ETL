@@ -592,102 +592,102 @@ class GeneInfo {
 
 	void createGeneInfoTable(){
 
-        Boolean isPostgres = Util.isPostgres()
+            Boolean isPostgres = Util.isPostgres()
 
-        String qry
-        String qry1
-        String qry2
+            String qry
+            String qry1
+            String qry2
 
-        if(isPostgres) {
-            qry1 = "select count(1) from pg_tables where tablename=?"
-            qry2 = "drop table $geneInfoTable"
+            if(isPostgres) {
+                qry1 = "select count(1) from pg_tables where tablename=?"
+                qry2 = "drop table $geneInfoTable"
 
-            if(biomart.firstRow(qry1, [geneInfoTable])[0] > 0){
-                log.info "Drop table $geneInfoTable ..."
-                biomart.execute(qry2)
+                if(biomart.firstRow(qry1, [geneInfoTable])[0] > 0){
+                    log.info "Drop table $geneInfoTable ..."
+                    biomart.execute(qry2)
+                }
+            } else {
+                qry1 = "select count(1) from user_tables where table_name=?"
+                qry2 = "drop table $geneInfoTable purge"
+
+                if(biomart.firstRow(qry1, [geneInfoTable.toUpperCase()])[0] > 0){
+                    log.info "Drop table $geneInfoTable ..."
+                    biomart.execute(qry2)
+                }
             }
-        } else {
-            qry1 = "select count(1) from user_tables where table_name=?"
-            qry2 = "drop table $geneInfoTable purge"
 
-            if(biomart.firstRow(qry1, [geneInfoTable.toUpperCase()])[0] > 0){
-                log.info "Drop table $geneInfoTable ..."
-                biomart.execute(qry2)
-            }
-        }
+            log.info "Start creating table $geneInfoTable ..."
 
-		log.info "Start creating table $geneInfoTable ..."
-
-                if(isPostgres){
-                    qry = """ create table $geneInfoTable (
+            if(isPostgres){
+                qry = """ create table $geneInfoTable (
 						tax_id   numeric(10),
 						gene_id   numeric(20),
 						gene_symbol   character varying(200),
 						gene_descr    character varying(4000)
 				 ) """
-                } else {
-                    qry = """ create table $geneInfoTable (
+            } else {
+                qry = """ create table $geneInfoTable (
 						tax_id   number(10,0),
 						gene_id   number(20,0),
 						gene_symbol   varchar2(200),
 						gene_descr    varchar2(4000)
 				 ) """
-                }
-                
-		biomart.execute(qry)
-
-		log.info "End creating table $geneInfoTable ..."
+            }
+        
+            biomart.execute(qry)
+        
+            log.info "End creating table $geneInfoTable ..."
 	}
 
 
 	void createGeneSynonymTable(){
 
-        Boolean isPostgres = Util.isPostgres()
+            Boolean isPostgres = Util.isPostgres()
 
-        String qry
-        String qry1
-        String qry2
+            String qry
+            String qry1
+            String qry2
 
-        if(isPostgres) {
-            qry1 = "select count(1) from pg_tables where tablename=?"
-            qry2 = "drop table $geneSynonymTable"
+            if(isPostgres) {
+                qry1 = "select count(1) from pg_tables where tablename=?"
+                qry2 = "drop table $geneSynonymTable"
 
-            if(biomart.firstRow(qry1, [geneSynonymTable])[0] > 0){
-                log.info "Drop table $geneSynonymTable ..."
-                biomart.execute(qry2)
+                if(biomart.firstRow(qry1, [geneSynonymTable])[0] > 0){
+                    log.info "Drop table $geneSynonymTable ..."
+                    biomart.execute(qry2)
+                }
+            } else {
+                qry1 = "select count(1) from user_tables where table_name=?"
+                qry2 = "drop table $geneSynonymTable purge"
+
+                if(biomart.firstRow(qry1, [geneSynonymTable.toUpperCase()])[0] > 0){
+                    log.info "Drop table $geneSynonymTable ..."
+                    biomart.execute(qry2)
+                }
             }
-        } else {
-            qry1 = "select count(1) from user_tables where table_name=?"
-            qry2 = "drop table $geneSynonymTable purge"
 
-            if(biomart.firstRow(qry1, [geneSynonymTable.toUpperCase()])[0] > 0){
-                log.info "Drop table $geneSynonymTable ..."
-                biomart.execute(qry2)
-            }
-        }
+            log.info "Start creating table $geneSynonymTable ..."
 
-		log.info "Start creating table $geneSynonymTable ..."
-
-               if(isPostgres){
+            if(isPostgres){
 		qry = """ create table $geneSynonymTable (
 								tax_id        numeric(10),
 								gene_id       numeric(20),
 								gene_symbol   character varying(200),
 								gene_synonym  character varying(200)
 						 ) """
-               } else {
+            } else {
 		qry = """ create table $geneSynonymTable (
 								tax_id        number(10,0),
 								gene_id       number(20,0),
 								gene_symbol   varchar2(200),
 								gene_synonym       varchar2(200)
 						 ) """
-               }
+            }
                
 
-		biomart.execute(qry)
+            biomart.execute(qry)
 
-		log.info "End creating table $geneSynonymTable ..."
+            log.info "End creating table $geneSynonymTable ..."
 	}
 
 
